@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from app.database import engine, Base
-from app.routers import students
+
+from app.routers import student
 
 # Create database tables
 Base.metadata.create_all(bind=engine)
@@ -10,8 +11,7 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# Include routers
-app.include_router(students.router)
+app.include_router(student.router)
 
 @app.get("/")
 def root():
