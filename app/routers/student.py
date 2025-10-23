@@ -32,4 +32,12 @@ def get_all_students(skip: int = 0, limit: int = 10, db: Session = Depends(get_d
     students = db.query(Student).offset(skip).limit(limit).all()
     return students
 
+# READ - Get single student
+@router.get("/{student_id}", response_model=StudentResponse,status_code = 200)
+def get_student(student_id: int, db: Session = Depends(get_db)):
+    student = db.query(Student).filter(Student.id == student_id).first()
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    return student
+
 
