@@ -10,7 +10,7 @@ class StudentCreate(BaseModel):
 # For updating a student
 class StudentUpdate(BaseModel):
     name: str | None = None
-    email: EmailStr | None = None
+    email: str | None = None
     grade: float | None = None
     major: str | None = None
 

@@ -11,7 +11,7 @@ router = APIRouter(prefix = "/students")
 
 #Create - Add new student
 @router.post("/", response_model=StudentResponse,status_code = 201)
-def create_student(student : StudentCreate, db: Session = Depends(get))
+def create_student(student : StudentCreate, db: Session = Depends(get_db)):
 
     existing_student = db.query(Student).filter(Student.email == student.email).first()
     if existing_student:
