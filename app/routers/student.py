@@ -40,4 +40,32 @@ def get_student(student_id: int, db: Session = Depends(get_db)):
         raise HTTPException(status_code=404, detail="Student not found")
     return student
 
+#UPDATE - Update student
+@router.put("/{student_id}", response_model=StudentResponse , status_code=200)
+def update_student(student_id: int, student_update: StudentUpdate, db: Session = Depends(get_db)):
+    
+    student = db.query(Student).filter(Student.id == student_id).first()
+    
+    if not student:
+        raise HTTPException(status_code=404, detail="Student not found")
+    
+     # Convert the Pydantic model to a dictionary.
+    update_data = student_update.model_dump()
+    
+    if update_data.get('name') is not None:
+        student.name = update_data['name']
+    
+    if update_data.get('age') is not None:
+        student.age = update_data['age']
+        
+    if update_data.get('email') is not None:
+        student.email = update_data['email']
+
+    if update_data.get('major') is not None:
+        student.major = update_data['major']
+            
+    db.commit()
+    db.refresh(student)
+    return student
+
 
